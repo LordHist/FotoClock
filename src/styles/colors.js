@@ -18,6 +18,7 @@ const blueVersion = {
   black: '#000000',
   green: '#6DD0A3',
   yellow: '#ffc247',
+  blueButton: './../assets/images/Gradients-12.png',
 };
 
 export default blueVersion;

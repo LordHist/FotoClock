@@ -1,31 +1,11 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
-const viewNavigate = ['home', 'history', 'time', 'login'];
-const setNativate = (value, navigator) => {
-  navigator.navigate(viewNavigate[value]);
-};
-const viewButton = [
-  'Inicio',
-  'Historial',
-  'Registrar Horario',
-  'Cerrar Sesion',
-];
-const profilePages = ({navigation}) => {
+const profilePages = () => {
   return (
     <View style={{padding: 40, flex: 1}}>
       <View>
         <Text>Hola que hace</Text>
-      </View>
-      <View>
-        {viewButton.map((value, keys) => (
-          <TouchableOpacity
-            style={styles.sectionTouchLogin}
-            key={keys}
-            onPress={() => setNativate(keys, navigation)}>
-            <Text style={styles.sectionText}>{value}</Text>
-          </TouchableOpacity>
-        ))}
       </View>
     </View>
   );

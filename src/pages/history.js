@@ -1,55 +1,91 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, VirtualizedList} from 'react-native';
+import {itemHistory} from '../constants';
 
-const viewNavigate = ['profile', 'home', 'time', 'login'];
-const setNativate = (value, navigator) => {
-  navigator.navigate(viewNavigate[value]);
-};
-const viewButton = [
-  'Perfil',
-  'Inicio',
-  'Registrar Horario',
-  'Cerrar Sesion',
-];
-const historyPages = ({navigation}) => {
-  return (
-    <View style={{padding: 40, flex: 1}}>
-      <View>
-        <Text>Hola que hace</Text>
+export default function historyPages() {
+  const getItem = (data, index) => {
+    const item = data[index];
+    return {
+      id: item.id,
+      date: item.date,
+      startTime: item.startTime,
+      endTime: item.endTime,
+    };
+  };
+  const getItemCount = data => {
+    return data.length;
+  };
+  const Items = ({data}) => {
+    const {id, date, startTime, endTime} = data;
+    return (
+      <View style={styles.item}>
+        <Text style={styles.title}>{date}</Text>
+        <Text style={styles.text}>
+          Hora de Entrada:
+          <Text style={styles.textData}> {startTime}</Text>
+        </Text>
+        <Text style={styles.text}>
+          Hora de Salida:
+          <Text style={styles.textData}> {endTime}</Text>
+        </Text>
       </View>
+    );
+  };
+  return (
+    <View style={styles.containerList}>
       <View>
-        {viewButton.map((value, keys) => (
-          <TouchableOpacity
-            style={styles.sectionTouchLogin}
-            key={keys}
-            onPress={() => setNativate(keys, navigation)}>
-            <Text style={styles.sectionText}>{value}</Text>
-          </TouchableOpacity>
-        ))}
+        <VirtualizedList
+          data={itemHistory}
+          initialNumToRender={4}
+          renderItem={({item}) => <Items data={item} />}
+          keyExtractor={item => `${item.id}`}
+          getItemCount={getItemCount}
+          getItem={getItem}
+          style={styles.virtualizeContainer}
+        />
       </View>
     </View>
   );
-};
-export default historyPages;
+}
 
 const styles = StyleSheet.create({
-  sectionTouchLogin: {
-    alignItems: 'flex-start',
-    paddingStart: 14,
-    paddingTop: 11,
-    marginStart: 24,
-    marginTop: 22,
-    width: 'auto',
-    height: 'auto',
-    borderRadius: 26.5,
-    borderWidth: 1,
-    borderColor: 'rgba(112, 112, 112, 255)',
-    backgroundColor: 'rgba(25, 55, 254, 255)',
+  item: {
+    backgroundColor: '#778899',
+    flex: 1,
+    justifyContent: 'center',
+    marginVertical: 7,
+    marginHorizontal: 16,
+    marginBottom: 1,
+    position: 'relative',
   },
-  sectionText: {
-    fontFamily: 'Segoe UI',
-    fontSize: 24,
+  title: {
+    margin: 15,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'white',
+  },
+  virtualizeContainer: {
+    width: '100%',
+  },
+  text: {
+    margin: 4,
+    fontSize: 14,
+    fontWeight: 'bold',
     textAlign: 'center',
-    color: 'rgba(255, 254, 254, 255)',
+    letterSpacing: 5,
+  },
+  textData: {
+    margin: 4,
+    fontSize: 14,
+    fontWeight: 'bold',
+    alignItems: 'flex-end',
+  },
+  containerList: {
+    flex: 1,
+    width: '100%',
+    padding: 16,
+    paddingTop: '5%',
   },
 });
